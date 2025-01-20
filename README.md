@@ -16,6 +16,12 @@ You can try the Android MacroBenchmark Viewer live at the following URL:
 
 [https://androidmacrobenchmarkviewer.onrender.com](https://androidmacrobenchmarkviewer.onrender.com)
 
+## Screenshot
+
+Here’s a preview of the Android MacroBenchmark Viewer interface:
+
+![Screenshot](https://github.com/sudhi001/AndroidMacroBenchmarkViewer/blob/main/screenshort.png)
+
 ## Installation
 
 ### Prerequisites
