@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Android MacroBenchmark Viewer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        td {
+            word-break: break-word;
+        }
+    </style>
+</head>
+
+
+<body class="bg-gray-100 text-gray-800">
+    <!-- Navigation Bar -->
+    <nav class="bg-blue-700 p-4">
+        <div class="container mx-auto flex justify-between items-center">
+            <a  class="text-white text-2xl font-bold">Android MacroBenchmark Viewer</a>
+            <p class="text-white text-sm">Onbrowser Android microbenchmark viewer. 100% open source and 100% data safety
+                because entirely run on your browser.</p>
+        </div>
+    </nav>
+
+    <div class="container mx-auto p-4">
+
+        <!-- File Upload -->
+        <div class="mb-6">
+            <label for="jsonFile" class="text-lg font-semibold">Upload JSON File</label>
+            <input type="file" id="jsonFile" class="ml-4 p-2 bg-gray-200 rounded" accept=".json">
+        </div>
+
+        <!-- Context Section -->
+        <div class="bg-white shadow-md rounded-lg p-6 mb-6" id="contextSection">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!-- Build Table -->
+                <div>
+                    <h3 class="text-lg font-semibold mb-2">Build</h3>
+                    <table class="table-auto w-full text-left border-collapse border border-gray-300" id="buildTable">
+                        <tbody>
+                            <!-- Data will be populated here -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Hardware Table -->
+                <div>
+                    <h3 class="text-lg font-semibold mb-2">Hardware</h3>
+                    <table class="table-auto w-full text-left border-collapse border border-gray-300"
+                        id="hardwareTable">
+                        <tbody>
+                            <!-- Data will be populated here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Benchmarks Section -->
+        <div class="bg-white shadow-md rounded-lg p-6" id="benchmarkSection">
+            <div class="mb-4">
+                <ul class="flex border-b rounded-t-lg">
+                    <li class="mr-1">
+                        <a class="inline-block py-2 px-4 text-black bg-gray-300 font-semibold rounded-t-lg active"
+                            href="#line-chart">Line Chart</a>
+                    </li>
+                    <li class="mr-1">
+                        <a class="inline-block py-2 px-4 text-gray-500 bg-gray-200 hover:text-black font-semibold rounded-t-lg"
+                            href="#bar-chart">Bar Chart</a>
+                    </li>
+                </ul>
+
+                <div id="line-chart" class="mt-4">
+                    <h3 class="text-lg font-semibold mb-2">Line Chart: Time to Initial Display</h3>
+                    <canvas id="lineChart"></canvas>
+                </div>
+
+                <div id="bar-chart" class="mt-4 hidden">
+                    <h3 class="text-lg font-semibold mb-2">Bar Chart: Time to Initial Display</h3>
+                    <canvas id="barChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-white shadow-md mt-6">
+        <div class="container mx-auto px-4 py-3 text-center">
+            <p class="text-gray-600">&copy; 2025 Android MacroBenchmark Viewer. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Function to handle JSON file upload and parsing
+        document.getElementById('jsonFile').addEventListener('change', function (event) {
+            const file = event.target.files[0];
+            if (file && file.type === 'application/json') {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    const jsonData = JSON.parse(e.target.result);
+                    populateData(jsonData);
+                    renderCharts(jsonData);
+                };
+                reader.readAsText(file);
+            }
+        });
+
+        // Function to populate tables with JSON data
+        function populateData(data) {
+            // Build Table
+            const buildTable = document.getElementById('buildTable');
+            buildTable.innerHTML = `
+                <tr class="border-b border-gray-300">
+                    <td class="font-medium p-2 whitespace-nowrap">Brand</td>
+                    <td class="p-2 break-words">${data.context.build.brand}</td>
+                </tr>
+                <tr class="border-b border-gray-300">
+                    <td class="font-medium p-2 whitespace-nowrap">Device</td>
+                    <td class="p-2 break-words">${data.context.build.device}</td>
+                </tr>
+                <tr class="border-b border-gray-300">
+                    <td class="font-medium p-2 whitespace-nowrap">Fingerprint</td>
+                    <td class="p-2 break-words">${data.context.build.fingerprint}</td>
+                </tr>
+                <tr class="border-b border-gray-300">
+                    <td class="font-medium p-2 whitespace-nowrap">Model</td>
+                    <td class="p-2 break-words">${data.context.build.model}</td>
+                </tr>
+                <tr>
+                    <td class="font-medium p-2 whitespace-nowrap">SDK Version</td>
+                    <td class="p-2 break-words">${data.context.build.version.sdk}</td>
+                </tr>
+            `;
+
+            // Hardware Table
+            const hardwareTable = document.getElementById('hardwareTable');
+            hardwareTable.innerHTML = `
+                <tr class="border-b border-gray-300">
+                    <td class="font-medium p-2 whitespace-nowrap">CPU Core Count</td>
+                    <td class="p-2 break-words">${data.context.cpuCoreCount}</td>
+                </tr>
+                <tr class="border-b border-gray-300">
+                    <td class="font-medium p-2 whitespace-nowrap">CPU Locked</td>
+                    <td class="p-2 break-words">${data.context.cpuLocked}</td>
+                </tr>
+                <tr class="border-b border-gray-300">
+                    <td class="font-medium p-2 whitespace-nowrap">CPU Max Frequency (Hz)</td>
+                    <td class="p-2 break-words">${data.context.cpuMaxFreqHz}</td>
+                </tr>
+                <tr class="border-b border-gray-300">
+                    <td class="font-medium p-2 whitespace-nowrap">Memory Total (Bytes)</td>
+                    <td class="p-2 break-words">${data.context.memTotalBytes}</td>
+                </tr>
+                <tr>
+                    <td class="font-medium p-2 whitespace-nowrap">Sustained Performance Mode Enabled</td>
+                    <td class="p-2 break-words">${data.context.sustainedPerformanceModeEnabled}</td>
+                </tr>
+            `;
+        }
+
+        // Function to render charts
+        function renderCharts(data) {
+            const metrics = data.benchmarks[0].metrics.timeToInitialDisplayMs;
+
+            const chartData = {
+                labels: ['Minimum', 'Maximum', 'Median'],
+                datasets: [{
+                    label: 'Time to Initial Display (ms)',
+                    data: [
+                        metrics.minimum,
+                        metrics.maximum,
+                        metrics.median
+                    ],
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            };
+
+            const lineChartCtx = document.getElementById('lineChart').getContext('2d');
+            const barChartCtx = document.getElementById('barChart').getContext('2d');
+
+            new Chart(lineChartCtx, {
+                type: 'line',
+                data: chartData,
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'top',
+                        },
+                    },
+                },
+            });
+
+            new Chart(barChartCtx, {
+                type: 'bar',
+                data: chartData,
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'top',
+                        },
+                    },
+                },
+            });
+        }
+
+        // Tab Control
+        document.querySelectorAll('a[href^="#"]').forEach(tab => {
+            tab.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                document.querySelectorAll('#line-chart, #bar-chart').forEach(section => {
+                    section.classList.add('hidden');
+                });
+
+                const target = this.getAttribute('href');
+                document.querySelector(target).classList.remove('hidden');
+
+                document.querySelectorAll('a[href^="#"]').forEach(link => {
+                    link.classList.remove('text-black', 'bg-gray-300', 'active');
+                    link.classList.add('text-gray-500', 'bg-gray-200');
+                });
+
+                this.classList.add('text-black', 'bg-gray-300', 'active');
+                this.classList.remove('text-gray-500', 'bg-gray-200');
+            });
+        });
+    </script>
+</body>
+
+</html>
