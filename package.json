@@ -1,0 +1,33 @@
+{
+  "name": "android-macrobenchmark-viewer",
+  "version": "2.0.0",
+  "private": true,
+  "description": "Browser-only viewer, comparer and trend tracker for Android Macrobenchmark benchmarkData.json output.",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "@sgratzl/chartjs-chart-boxplot": "^4.4.4",
+    "chart.js": "^4.4.7",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.0.0",
+    "@types/node": "^26.4.0",
+    "@types/react": "^18.3.18",
+    "@types/react-dom": "^18.3.5",
+    "@vitejs/plugin-react": "^6.1.1",
+    "tailwindcss": "^4.0.0",
+    "typescript": "^5.7.3",
+    "vite": "^8.2.2",
+    "vitest": "^4.1.11"
+  }
+}

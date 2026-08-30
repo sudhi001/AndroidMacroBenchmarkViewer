@@ -1,0 +1,37 @@
+{
+  "context": {
+    "build": {
+      "brand": "google",
+      "device": "raven",
+      "fingerprint": "google/raven/raven:14/UP1A.231005.007/10754064:user/release-keys",
+      "model": "Pixel 6 Pro",
+      "version": {
+        "sdk": 34
+      }
+    },
+    "cpuCoreCount": 8,
+    "cpuLocked": false,
+    "cpuMaxFreqHz": 2802000000,
+    "memTotalBytes": 11833450496,
+    "sustainedPerformanceModeEnabled": false
+  },
+  "benchmarks": [
+    {
+      "name": "legacy",
+      "params": {},
+      "className": "com.example.LegacyBenchmark",
+      "totalRunTimeNs": 5000000000,
+      "metrics": {
+        "timeToInitialDisplayMs": {
+          "minimum": 300.1,
+          "maximum": 355.9,
+          "median": 322.4
+        }
+      },
+      "sampledMetrics": {},
+      "warmupIterations": 0,
+      "repeatIterations": 3,
+      "thermalThrottleSleepSeconds": 0
+    }
+  ]
+}
