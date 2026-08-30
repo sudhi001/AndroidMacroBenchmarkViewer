@@ -1,0 +1,66 @@
+{
+  "context": {
+    "build": {
+      "brand": "google",
+      "device": "raven",
+      "fingerprint": "google/raven/raven:14/UP1A.231005.007/10754064:user/release-keys",
+      "model": "Pixel 6 Pro",
+      "version": {
+        "sdk": 34
+      }
+    },
+    "cpuCoreCount": 8,
+    "cpuLocked": false,
+    "cpuMaxFreqHz": 2802000000,
+    "memTotalBytes": 11833450496,
+    "sustainedPerformanceModeEnabled": false
+  },
+  "benchmarks": [
+    {
+      "name": "startupCompose",
+      "params": {},
+      "className": "com.example.macrobenchmark.startup.StartupBenchmark",
+      "totalRunTimeNs": 41275598256,
+      "metrics": {
+        "timeToInitialDisplayMs": {
+          "minimum": 278.220422,
+          "maximum": 316.595732,
+          "median": 308.632701,
+          "runs": [
+            316.595732,
+            315.268231,
+            308.632701,
+            278.220422,
+            310.944092,
+            304.751388,
+            312.187987,
+            308.016317,
+            312.881728,
+            301.242399
+          ]
+        },
+        "timeToFullDisplayMs": {
+          "minimum": 465.741065,
+          "maximum": 514.05177,
+          "median": 481.039268,
+          "runs": [
+            483.956029,
+            481.039268,
+            466.012392,
+            465.741065,
+            474.320673,
+            466.131261,
+            514.05177,
+            494.757124,
+            508.651216,
+            506.522362
+          ]
+        }
+      },
+      "sampledMetrics": {},
+      "warmupIterations": 3,
+      "repeatIterations": 10,
+      "thermalThrottleSleepSeconds": 0
+    }
+  ]
+}

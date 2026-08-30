@@ -1,0 +1,51 @@
+{
+  "context": {
+    "build": {
+      "brand": "samsung",
+      "device": "b0q",
+      "fingerprint": "samsung/b0q/b0q:14/UP1A.231005.007/S908E:user/release-keys",
+      "model": "Galaxy S22 Ultra",
+      "version": {
+        "sdk": 34
+      }
+    },
+    "cpuCoreCount": 8,
+    "cpuLocked": true,
+    "cpuMaxFreqHz": 2802000000,
+    "memTotalBytes": 11833450496,
+    "sustainedPerformanceModeEnabled": false
+  },
+  "benchmarks": [
+    {
+      "name": "startup",
+      "params": {},
+      "className": "com.example.StartupBenchmark",
+      "totalRunTimeNs": 38000000000,
+      "metrics": {
+        "timeToInitialDisplayMs": {
+          "minimum": 255.63665,
+          "maximum": 275.553631,
+          "median": 265.939976,
+          "runs": [
+            263.327331,
+            270.999325,
+            255.63665,
+            267.055774,
+            259.75167,
+            262.832544,
+            266.155876,
+            265.939976,
+            275.553631,
+            274.032112,
+            267.449348,
+            265.758209
+          ]
+        }
+      },
+      "sampledMetrics": {},
+      "warmupIterations": 3,
+      "repeatIterations": 12,
+      "thermalThrottleSleepSeconds": 0
+    }
+  ]
+}
